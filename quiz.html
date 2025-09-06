@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .quiz-box {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .question {
+      font-size: 18px;
+      margin-bottom: 15px;
+      font-weight: bold;
+      color: #222;
+    }
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      background: #1976d2;
+      color: white;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #0d47a1;
+    }
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 20px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-box">
+    <h2>🌍 General Knowledge Quiz</h2>
+    <p class="question" id="question">Question will appear here</p>
+    <div id="options"></div>
+    <p id="result"></p>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "What is the capital of France?",
+        options: ["London", "Berlin", "Paris", "Madrid"],
+        answer: "Paris"
+      },
+      {
+        question: "Which planet is known as the Red Planet?",
+        options: ["Earth", "Mars", "Jupiter", "Venus"],
+        answer: "Mars"
+      },
+      {
+        question: "Who invented the light bulb?",
+        options: ["Newton", "Edison", "Einstein", "Tesla"],
+        answer: "Edison"
+      },
+      {
+        question: "What is the largest mammal?",
+        options: ["Elephant", "Blue Whale", "Giraffe", "Shark"],
+        answer: "Blue Whale"
+      },
+      {
+        question: "Which is the fastest land animal?",
+        options: ["Lion", "Cheetah", "Horse", "Tiger"],
+        answer: "Cheetah"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const resultEl = document.getElementById("result");
+
+    function loadQuestion() {
+      if (currentQuestion < quizData.length) {
+        const q = quizData[currentQuestion];
+        questionEl.textContent = q.question;
+        optionsEl.innerHTML = "";
+        q.options.forEach(option => {
+          const btn = document.createElement("button");
+          btn.textContent = option;
+          btn.onclick = () => checkAnswer(option);
+          optionsEl.appendChild(btn);
+        });
+      } else {
+        showResult();
+      }
+    }
+
+    function checkAnswer(selected) {
+      if (selected === quizData[currentQuestion].answer) {
+        score++;
+      }
+      currentQuestion++;
+      loadQuestion();
+    }
+
+    function showResult() {
+      questionEl.textContent = "Quiz Finished!";
+      optionsEl.innerHTML = "";
+      resultEl.textContent = `You scored ${score} out of ${quizData.length} 🎉`;
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
